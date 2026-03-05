@@ -3,8 +3,8 @@
   "short_name": "HazBudget",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#fff7cc",
-  "theme_color": "#ff5aa5",
+  "background_color": "#fffaf3",
+  "theme_color": "#ff9ecf",
   "icons": [
     {
       "src": "icons/icon.svg",
