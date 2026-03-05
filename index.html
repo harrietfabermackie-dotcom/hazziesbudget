@@ -1,0 +1,577 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#ff5aa5" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml" />
+  <title>Hazzie Asia Budget</title>
+  <style>
+    :root{
+      --bg: #fff7cc;
+      --card: rgba(255,255,255,0.88);
+      --pink: #ff5aa5;
+      --yellow: #ffd84a;
+      --ink: #191919;
+      --muted: rgba(25,25,25,0.6);
+      --shadow: 0 12px 40px rgba(0,0,0,0.10);
+      --radius: 22px;
+      --ring: 0 0 0 4px rgba(255,90,165,0.18);
+    }
+    *{ box-sizing: border-box; }
+    html, body{ height: 100%; }
+    body{
+      margin: 0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+      color: var(--ink);
+      background:
+        radial-gradient(1200px 800px at 15% 10%, rgba(255,90,165,0.18), transparent 55%),
+        radial-gradient(900px 700px at 90% 20%, rgba(255,216,74,0.35), transparent 55%),
+        linear-gradient(180deg, var(--bg), #fff);
+      display: grid;
+      place-items: start center;
+      padding: 18px;
+    }
+    .wrap{
+      width: min(520px, 100%);
+      display: grid;
+      gap: 14px;
+      padding-bottom: 24px;
+    }
+    .header{
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 14px 4px 14px;
+    }
+    .brand{
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .logo{
+      width: 46px;
+      height: 46px;
+      border-radius: 16px;
+      background: linear-gradient(135deg, rgba(255,90,165,0.95), rgba(255,216,74,0.95));
+      box-shadow: var(--shadow);
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+    }
+    .logo svg{ width: 34px; height: 34px; }
+    h1{
+      font-size: 18px;
+      margin: 0;
+      letter-spacing: 0.2px;
+      line-height: 1.1;
+    }
+    .sub{
+      margin: 0;
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .pill{
+      font-size: 12px;
+      padding: 8px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.7);
+      border: 1px solid rgba(0,0,0,0.06);
+      box-shadow: 0 10px 26px rgba(0,0,0,0.07);
+      color: rgba(25,25,25,0.85);
+      display: inline-flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .pill b{ font-weight: 800; }
+    .card{
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,0.06);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 14px;
+      overflow: hidden;
+    }
+    .grid2{
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+    .stat{
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.7);
+    }
+    .stat .label{
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 6px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dot{
+      width: 8px;
+      height: 8px;
+      border-radius: 99px;
+      background: var(--yellow);
+      box-shadow: 0 0 0 4px rgba(255,216,74,0.2);
+    }
+    .dot.pink{
+      background: var(--pink);
+      box-shadow: 0 0 0 4px rgba(255,90,165,0.18);
+    }
+    .value{
+      font-size: 20px;
+      font-weight: 900;
+      letter-spacing: 0.2px;
+    }
+    .row{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+    }
+    input, button{
+      font: inherit;
+    }
+    .input{
+      width: 100%;
+      padding: 14px 14px;
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.85);
+      outline: none;
+    }
+    .input:focus{
+      box-shadow: var(--ring);
+      border-color: rgba(255,90,165,0.4);
+    }
+    .btn{
+      border: 0;
+      padding: 14px 14px;
+      border-radius: 18px;
+      background: var(--pink);
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+      box-shadow: 0 14px 34px rgba(255,90,165,0.25);
+      transition: transform 0.06s ease;
+      white-space: nowrap;
+    }
+    .btn:active{ transform: translateY(1px); }
+    .btn.secondary{
+      background: rgba(255,255,255,0.8);
+      color: var(--ink);
+      border: 1px solid rgba(0,0,0,0.10);
+      box-shadow: 0 12px 26px rgba(0,0,0,0.08);
+      font-weight: 800;
+    }
+    .quick{
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .chip{
+      border: 1px solid rgba(0,0,0,0.10);
+      background: rgba(255,255,255,0.7);
+      padding: 10px 12px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 800;
+    }
+    .chip:active{ transform: translateY(1px); }
+    .split{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+    }
+    .muted{
+      color: var(--muted);
+      font-size: 12px;
+    }
+    .list{
+      display: grid;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .item{
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 12px;
+      border-radius: 18px;
+      border: 1px solid rgba(0,0,0,0.06);
+      background: rgba(255,255,255,0.68);
+    }
+    .item .left{
+      display: grid;
+      gap: 2px;
+    }
+    .item .amt{
+      font-weight: 900;
+    }
+    .item .time{
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .trash{
+      border: 0;
+      background: rgba(255,90,165,0.12);
+      color: var(--pink);
+      font-weight: 900;
+      padding: 10px 12px;
+      border-radius: 14px;
+      cursor: pointer;
+    }
+    .hr{
+      height: 1px;
+      background: rgba(0,0,0,0.06);
+      margin: 12px 0;
+    }
+    .banner{
+      border-radius: 18px;
+      padding: 12px;
+      border: 1px solid rgba(0,0,0,0.08);
+      background: rgba(255,90,165,0.10);
+      display: none;
+      gap: 8px;
+    }
+    .banner.show{ display: grid; }
+    .banner b{ font-weight: 900; }
+    .tiny{
+      font-size: 12px;
+      color: rgba(25,25,25,0.75);
+      line-height: 1.35;
+    }
+    .footer{
+      text-align: center;
+      color: rgba(25,25,25,0.55);
+      font-size: 12px;
+      padding: 4px 0 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 64 64" fill="none">
+            <path d="M14 30c0-10 8-18 18-18s18 8 18 18c0 14-9 22-18 22S14 44 14 30z" fill="rgba(255,255,255,0.92)"/>
+            <path d="M20 19l-6-7c-2-2-1-5 2-6 2-1 4 0 5 2l4 8" fill="rgba(255,255,255,0.92)"/>
+            <path d="M44 19l6-7c2-2 1-5-2-6-2-1-4 0-5 2l-4 8" fill="rgba(255,255,255,0.92)"/>
+            <circle cx="26" cy="30" r="3" fill="#191919"/>
+            <circle cx="38" cy="30" r="3" fill="#191919"/>
+            <path d="M32 34c2 0 4 1 4 3 0 2-2 3-4 3s-4-1-4-3c0-2 2-3 4-3z" fill="#191919"/>
+            <path d="M24 38c2 2 5 3 8 3s6-1 8-3" stroke="#191919" stroke-width="3" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <div>
+          <h1>Hazzie's Asia Budget</h1>
+          <p class="sub" id="dateLine">Today</p>
+        </div>
+      </div>
+
+      <div class="pill" title="Resets at midnight Vietnam time">
+        <span>VN</span>
+        <b id="vnDatePill">...</b>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="banner" id="budgetBanner">
+        <div class="tiny">
+          <b>Set your daily budget</b><br />
+          Put your daily budget in VND once, then you are sorted for the rest of the trip.
+        </div>
+        <div class="row" style="margin-top: 8px;">
+          <input class="input" id="budgetInput" inputmode="numeric" placeholder="Daily budget, VND" />
+          <button class="btn" id="saveBudgetBtn">Save</button>
+        </div>
+      </div>
+
+      <div class="grid2" style="margin-top: 6px;">
+        <div class="stat">
+          <div class="label"><span class="dot"></span><span>Spent today</span></div>
+          <div class="value" id="spentToday">0</div>
+        </div>
+        <div class="stat">
+          <div class="label"><span class="dot pink"></span><span>Remaining</span></div>
+          <div class="value" id="remaining">0</div>
+        </div>
+      </div>
+
+      <div class="hr"></div>
+
+      <div class="row">
+        <input class="input" id="amountInput" inputmode="numeric" placeholder="Enter spend, VND" />
+        <button class="btn" id="addBtn">Add</button>
+      </div>
+
+      <div class="quick" aria-label="Quick add">
+        <button class="chip" data-add="20000">+20k</button>
+        <button class="chip" data-add="50000">+50k</button>
+        <button class="chip" data-add="100000">+100k</button>
+        <button class="chip" data-add="200000">+200k</button>
+        <button class="chip" data-add="500000">+500k</button>
+      </div>
+
+      <div class="split" style="margin-top: 12px;">
+        <div class="muted" id="countLine">0 spends today</div>
+        <button class="btn secondary" id="clearBtn">Clear today</button>
+      </div>
+
+      <div class="list" id="list"></div>
+    </div>
+
+    <div class="footer">Minimal, cute, offline, resets at midnight Vietnam time.</div>
+  </div>
+
+<script>
+(() => {
+  const TZ = 'Asia/Ho_Chi_Minh';
+
+  const $ = (id) => document.getElementById(id);
+
+  const els = {
+    vnDatePill: $('vnDatePill'),
+    dateLine: $('dateLine'),
+    spentToday: $('spentToday'),
+    remaining: $('remaining'),
+    amountInput: $('amountInput'),
+    addBtn: $('addBtn'),
+    clearBtn: $('clearBtn'),
+    list: $('list'),
+    countLine: $('countLine'),
+    budgetBanner: $('budgetBanner'),
+    budgetInput: $('budgetInput'),
+    saveBudgetBtn: $('saveBudgetBtn'),
+  };
+
+  const storageKey = 'hazzie_budget_v1';
+
+  function formatVNDateParts(now = new Date()){
+    const d = new Date(now);
+    const formatter = new Intl.DateTimeFormat('en-GB', {
+      timeZone: TZ,
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit'
+    });
+    const parts = formatter.formatToParts(d);
+    const map = Object.fromEntries(parts.filter(p => p.type !== 'literal').map(p => [p.type, p.value]));
+    const key = `${map.year}-${map.month}-${map.day}`;
+    const pretty = `${map.day}/${map.month}/${map.year}`;
+    return { key, pretty };
+  }
+
+  function formatTimeVN(ts){
+    const d = new Date(ts);
+    return new Intl.DateTimeFormat('en-GB', {
+      timeZone: TZ,
+      hour: '2-digit',
+      minute: '2-digit'
+    }).format(d);
+  }
+
+  function formatVND(n){
+    const x = Math.max(0, Math.round(Number(n || 0)));
+    return x.toLocaleString('en-GB') + ' VND';
+  }
+
+  function parseVND(input){
+    const cleaned = String(input || '').replace(/[^\d]/g, '');
+    if(!cleaned) return 0;
+    return Math.max(0, Number(cleaned));
+  }
+
+  function loadState(){
+    try{
+      const raw = localStorage.getItem(storageKey);
+      if(!raw) return null;
+      return JSON.parse(raw);
+    }catch{
+      return null;
+    }
+  }
+
+  function saveState(state){
+    localStorage.setItem(storageKey, JSON.stringify(state));
+  }
+
+  function freshStateForToday(){
+    const { key } = formatVNDateParts();
+    return {
+      vnDateKey: key,
+      dailyBudgetVND: 0,
+      entries: []
+    };
+  }
+
+  function ensureToday(state){
+    const { key } = formatVNDateParts();
+    if(!state) return freshStateForToday();
+    if(state.vnDateKey !== key){
+      const next = freshStateForToday();
+      next.dailyBudgetVND = Number(state.dailyBudgetVND || 0);
+      saveState(next);
+      return next;
+    }
+    return state;
+  }
+
+  function spentTotal(entries){
+    return entries.reduce((sum, e) => sum + (Number(e.amountVND) || 0), 0);
+  }
+
+  function render(state){
+    const { pretty } = formatVNDateParts();
+    els.vnDatePill.textContent = pretty;
+    els.dateLine.textContent = `Today, ${pretty}, Vietnam time`;
+
+    const spent = spentTotal(state.entries);
+    const budget = Number(state.dailyBudgetVND || 0);
+    const remaining = Math.max(0, budget - spent);
+
+    els.spentToday.textContent = formatVND(spent);
+    els.remaining.textContent = budget > 0 ? formatVND(remaining) : 'Set budget';
+
+    els.countLine.textContent = `${state.entries.length} spend${state.entries.length === 1 ? '' : 's'} today`;
+
+    if(!budget){
+      els.budgetBanner.classList.add('show');
+    }else{
+      els.budgetBanner.classList.remove('show');
+    }
+
+    els.list.innerHTML = '';
+    if(state.entries.length === 0){
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <div class="left">
+          <div class="amt">No spends yet</div>
+          <div class="time">You are being so good.</div>
+        </div>
+        <div></div>
+      `;
+      els.list.appendChild(div);
+      return;
+    }
+
+    const sorted = [...state.entries].sort((a,b) => b.ts - a.ts);
+    for(const e of sorted){
+      const div = document.createElement('div');
+      div.className = 'item';
+      div.innerHTML = `
+        <div class="left">
+          <div class="amt">${formatVND(e.amountVND)}</div>
+          <div class="time">${formatTimeVN(e.ts)}</div>
+        </div>
+        <button class="trash" data-id="${e.id}" title="Delete">X</button>
+      `;
+      els.list.appendChild(div);
+    }
+  }
+
+  function makeId(){
+    return Math.random().toString(16).slice(2) + Date.now().toString(16);
+  }
+
+  let state = ensureToday(loadState());
+  saveState(state);
+  render(state);
+
+  function addSpend(amountVND){
+    const amt = Math.round(Number(amountVND || 0));
+    if(!amt || amt <= 0) return;
+
+    state = ensureToday(loadState());
+    state.entries.push({ id: makeId(), amountVND: amt, ts: Date.now() });
+    saveState(state);
+    render(state);
+  }
+
+  els.addBtn.addEventListener('click', () => {
+    const amt = parseVND(els.amountInput.value);
+    els.amountInput.value = '';
+    addSpend(amt);
+    els.amountInput.focus();
+  });
+
+  els.amountInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      els.addBtn.click();
+    }
+  });
+
+  document.querySelectorAll('.chip').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const add = Number(btn.getAttribute('data-add') || 0);
+      addSpend(add);
+    });
+  });
+
+  els.clearBtn.addEventListener('click', () => {
+    state = ensureToday(loadState());
+    state.entries = [];
+    saveState(state);
+    render(state);
+  });
+
+  els.list.addEventListener('click', (e) => {
+    const t = e.target;
+    if(!(t instanceof HTMLElement)) return;
+    if(t.matches('button.trash')){
+      const id = t.getAttribute('data-id');
+      state = ensureToday(loadState());
+      state.entries = state.entries.filter(x => x.id !== id);
+      saveState(state);
+      render(state);
+    }
+  });
+
+  els.saveBudgetBtn.addEventListener('click', () => {
+    const budget = parseVND(els.budgetInput.value);
+    if(!budget || budget <= 0) return;
+    state = ensureToday(loadState());
+    state.dailyBudgetVND = budget;
+    saveState(state);
+    els.budgetInput.value = '';
+    render(state);
+  });
+
+  els.budgetInput.addEventListener('keydown', (e) => {
+    if(e.key === 'Enter'){
+      e.preventDefault();
+      els.saveBudgetBtn.click();
+    }
+  });
+
+  if('serviceWorker' in navigator){
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(() => {});
+    });
+  }
+
+  const tick = () => {
+    const current = ensureToday(loadState());
+    if(current.vnDateKey !== state.vnDateKey){
+      state = current;
+      render(state);
+    }
+  };
+  setInterval(tick, 20 * 1000);
+})();
+</script>
+</body>
+</html>
